@@ -4,8 +4,7 @@ import axios from 'axios';
 
 interface WeatherInfo{
   weather: {
-    main: string;
-    description: string;
+    main?: string;
   }[],
   main: {
     temp: number;
@@ -18,10 +17,10 @@ interface WeatherInfo{
 
 
 function App() {
-  const API_KEY: string = '129015aab77679a0f1f1b499377f237e';
+  const API_KEY: string = '5503ad815a54c8030e098dc29a4e774f';
 
   const [query, setQuery] = useState('');
-  const [weathers, setWeathers] = useState<WeatherInfo[]>([]);
+  const [weathers, setWeathers] = useState<WeatherInfo>();
 
   const search = (evt: any) => {
     if (evt.key === "Enter") {
@@ -40,7 +39,7 @@ function App() {
 
   const dateBuilder = (d: any) => {
     let months: string[] = ["January", "February", "March", "April", "May", "June", "August", "September", "October", "November", "December"];
-    let days: string[] = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    let days: string[] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
     let day = days[d.getDay()];
     let date = d.getDate();
@@ -55,7 +54,7 @@ function App() {
 
 
   return (
-    <div className="App ">
+    <div className= {(weathers && weathers.weather[0].main != null) ? ((weathers.main.temp > 16 ) ? 'App-warm' : 'App' ) : 'App'}>
       <main>
         <div className="search-box">
           <input type="text"
@@ -66,17 +65,17 @@ function App() {
             onKeyPress={search}
           />
         </div>
-        {( (weathers.main).type = ! "undefined") ?(
+        {( weathers && weathers.weather[0].main != null) ?(
          <div>
           <div className="location-box">
             <div className="location">
-              {weathers.map(weather1 => <h2>{weather1.name}</h2>)}
+              {weathers.name} , {weathers.sys.country}
             </div>
             <div className="date">{dateBuilder(new Date())}</div>
           </div>
           <div className="weather-box">
-            <div className="temp">15°c</div>
-            <div className="weather">Sunny</div>
+        <div className="temp">{weathers.main.temp}°c</div>
+        <div className="weather">{weathers.weather[0].main}</div>
           </div>
         </div>
         ) : ('')}

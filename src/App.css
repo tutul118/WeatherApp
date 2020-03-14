@@ -12,11 +12,13 @@ body{
   background-image: url(./image/winter.jpg);
   background-size: cover;
   background-position: bottom;
-  transition: 0.4 ease-out;
+  transition: 0.4s ease;
 }
 
-.App.warm {
-  background-image: url(./image/summer1.jpg);
+.App-warm {
+  background-image: url(./image/summer.jpg);
+  background-size: 100%;
+  transition: 0.4s ease;
 }
 
 main{
