@@ -2,18 +2,18 @@ import React, { useState } from 'react';
 import './App.css';
 import axios from 'axios';
 
-interface WeatherInfo {
+interface WeatherInfo{
   weather: {
-    main: string,
-    description: string,
+    main: string;
+    description: string;
   }[],
   main: {
-    temp: number
+    temp: number;
   },
   sys: {
-    country: string
+    country: string;
   },
-  name: string
+  name: string;
 }
 
 
@@ -21,15 +21,15 @@ function App() {
   const API_KEY: string = '129015aab77679a0f1f1b499377f237e';
 
   const [query, setQuery] = useState('');
-  const [weather, setWeather] = useState<WeatherInfo[]>([]);
+  const [weathers, setWeathers] = useState<WeatherInfo[]>([]);
 
   const search = (evt: any) => {
     if (evt.key === "Enter") {
-      axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${query}&units=metricAPPID=${API_KEY}`)
+      axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${query}&units=metric&APPID=${API_KEY}`)
         .then(res => {
           const weatherData = res.data;
           setQuery('');
-          setWeather(weatherData);
+          setWeathers(weatherData);
           console.log(weatherData);
         })
         .catch(error => {
@@ -66,14 +66,21 @@ function App() {
             onKeyPress={search}
           />
         </div>
-        <div className="location-box">
-          <div className="location">LOndon , Uk</div>
-          <div className="date">{dateBuilder(new Date())}</div>
+        {( (weathers.main).type = ! "undefined") ?(
+         <div>
+          <div className="location-box">
+            <div className="location">
+              {weathers.map(weather1 => <h2>{weather1.name}</h2>)}
+            </div>
+            <div className="date">{dateBuilder(new Date())}</div>
+          </div>
+          <div className="weather-box">
+            <div className="temp">15°c</div>
+            <div className="weather">Sunny</div>
+          </div>
         </div>
-        <div className="weather-box">
-          <div className="temp">15°c</div>
-          <div className="weather">Sunny</div>
-        </div>
+        ) : ('')}
+
 
       </main>
     </div>
